@@ -80,6 +80,7 @@ const TodoList = () => {
 
               <div>
                 <Button
+                  data-testid="updateTask"
                   onClick={() => handleUpdateTask(item?.id, item?.name)}
                   type="primary"
                 >
@@ -87,6 +88,7 @@ const TodoList = () => {
                 </Button>
                 &nbsp; &nbsp;
                 <Button
+                  data-testid="deleteTask"
                   onClick={() => handleDeleteTask(item?.id)}
                   type="primary"
                   danger
