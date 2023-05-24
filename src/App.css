@@ -1,0 +1,18 @@
+.container {
+  position: relative;
+  height: 100vh;
+}
+
+.box {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translateX(-50%);
+  transform: translateY(-50%);
+  text-align: center;
+}
+
+.count {
+  font-size: 26px;
+  margin-bottom: 10px;
+}
