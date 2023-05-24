@@ -9,13 +9,12 @@ const TodoList = () => {
   const [dataSource, setDataSource] = useState([]);
 
   const fetchTasks = async () => {
-    listTask()
-      .then((data) => {
-        setDataSource([...data]);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    try {
+      const data = await listTask();
+      setDataSource(data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
@@ -24,6 +23,7 @@ const TodoList = () => {
 
   const handleAddTask = async () => {
     await addTask(value);
+    
     await fetchTasks();
   };
 
@@ -59,7 +59,7 @@ const TodoList = () => {
           value={value}
           onChange={(event) => setValue(event?.target?.value)}
         />
-        <Button onClick={() => handleAddTask()}>Add Task</Button>
+        <Button onClick={handleAddTask}>Add Task</Button>
       </Space>
 
       <List

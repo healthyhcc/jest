@@ -60,6 +60,6 @@ export const updateTask = (task) => {
 
 export const listTask = () => {
   return new Promise((resolve, reject) => {
-    taskList ? resolve(taskList) : reject("fail");
+    taskList ? resolve([...taskList]) : reject("fail");
   });
 };
