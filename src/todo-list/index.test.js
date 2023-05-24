@@ -10,18 +10,29 @@ jest.mock("./request", () => ({
   addTask: jest.fn(),
   deleteTask: jest.fn(),
   updateTask: jest.fn(),
-  listTask: jest.fn()
-  .mockResolvedValue([
-    { id: 1, name: "Task 1" },
-    { id: 2, name: "Task 2" },
-    { id: 3, name: "Task 3" },
-  ])
-  .mockResolvedValue([
-    { id: 1, name: "Task 1" },
-    { id: 2, name: "Task 2" },
-    { id: 3, name: "Task 3" },
-    { id: 3, name: "New Task" },
-  ]),
+  listTask: jest
+    .fn()
+    .mockResolvedValue([
+      { id: 1, name: "Task 1" },
+      { id: 2, name: "Task 2" },
+      { id: 3, name: "Task 3" },
+    ])
+    .mockResolvedValueOnce([
+      { id: 1, name: "Task 1" },
+      { id: 2, name: "Task 2" },
+      { id: 3, name: "Task 3" },
+      { id: 3, name: "New Task" },
+    ])
+    .mockResolvedValueOnce([
+      { id: 1, name: "Task 1" },
+      { id: 2, name: "Task 2" },
+      { id: 3, name: "Task 3" },
+      { id: 3, name: "Updated Task" },
+    ])
+    .mockResolvedValueOnce([
+      { id: 2, name: "Task 2" },
+      { id: 3, name: "Task 3" },
+    ]),
 }));
 
 describe("TodoList", () => {
