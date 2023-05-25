@@ -23,33 +23,31 @@ const TodoList = () => {
 
   const handleAddTask = async () => {
     await addTask(value);
-    
-    await fetchTasks();
+    fetchTasks();
   };
 
   const handleDeleteTask = async (id) => {
     await deleteTask(id);
-    await fetchTasks();
+    fetchTasks();
   };
 
   const handleUpdateTask = async (id, name) => {
-    setTask({
+    await setTask({
       id,
       name,
     });
     setModalOpen(true);
   };
 
-  const handleOk = async () => {
-    await updateTask(task);
-    await fetchTasks();
-    setTask(undefined);
+  const handleCloseModal = async () => {
+    await setTask(undefined);
     setModalOpen(false);
   };
 
-  const handleCancel = () => {
-    setTask(undefined);
-    setModalOpen(false);
+  const handleOk = async () => {
+    await updateTask(task);
+    await fetchTasks();
+    handleCloseModal();
   };
   return (
     <Card>
@@ -80,7 +78,7 @@ const TodoList = () => {
 
               <div>
                 <Button
-                  data-testid="updateTask"
+                  aria-label="Update Task"
                   onClick={() => handleUpdateTask(item?.id, item?.name)}
                   type="primary"
                 >
@@ -88,7 +86,7 @@ const TodoList = () => {
                 </Button>
                 &nbsp; &nbsp;
                 <Button
-                  data-testid="deleteTask"
+                  aria-label="Delete Task"
                   onClick={() => handleDeleteTask(item?.id)}
                   type="primary"
                   danger
@@ -105,7 +103,7 @@ const TodoList = () => {
         title="Update Task"
         open={modalOpen}
         onOk={handleOk}
-        onCancel={handleCancel}
+        onCancel={handleCloseModal}
       >
         <Input
           data-testid="inputName"

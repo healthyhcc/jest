@@ -3,29 +3,15 @@
  */
 
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { act } from "react-dom/test-utils";
 import TodoList from "./index";
+import { listTask } from "./request";
 
 jest.mock("./request", () => ({
   addTask: jest.fn(),
   deleteTask: jest.fn(),
   updateTask: jest.fn(),
-  listTask: jest
-    .fn()
-    .mockResolvedValue([
-      { id: 1, name: "Task 1" },
-      { id: 2, name: "Task 2" },
-      { id: 3, name: "Task 3" },
-    ])
-    .mockResolvedValue([
-      { id: 1, name: "Task 1" },
-      { id: 2, name: "Task 2" },
-      { id: 3, name: "Task 3" },
-      { id: 3, name: "New Task" },
-    ])
-    .mockResolvedValue([
-      { id: 1, name: "Task 1" },
-      { id: 2, name: "Task 2" },
-    ])
+  listTask: jest.fn(),
 }));
 
 describe("TodoList", () => {
@@ -46,6 +32,12 @@ describe("TodoList", () => {
   });
 
   test("renders TodoList component", async () => {
+    listTask.mockResolvedValueOnce([
+      { id: 1, name: "Task 1" },
+      { id: 2, name: "Task 2" },
+      { id: 3, name: "Task 3" },
+    ]);
+
     render(<TodoList />);
 
     // Add Task 是否存在于document
@@ -57,6 +49,13 @@ describe("TodoList", () => {
   });
 
   test("adds new task", async () => {
+    listTask.mockResolvedValueOnce([
+      { id: 1, name: "Task 1" },
+      { id: 2, name: "Task 2" },
+      { id: 3, name: "Task 3" },
+      { id: 3, name: "New Task" },
+    ]);
+
     render(<TodoList />);
 
     const input = screen.getByTestId("inputValue");
@@ -70,35 +69,53 @@ describe("TodoList", () => {
   });
 
   test("delete task", async () => {
+    listTask.mockResolvedValueOnce([
+      { id: 1, name: "Task 1" },
+      { id: 2, name: "Task 2" },
+      { id: 3, name: "Task 3" },
+    ]);
+
     render(<TodoList />);
 
-    const deleteButton = screen.getByTestId("deleteTask");
-
-    console.log(deleteButton);
-
-    fireEvent.click(deleteButton[2]);
+    const deleteButtons = await screen.findAllByRole("button", {
+      name: /Delete Task/i,
+    });
+    // console.log(deleteButtons.length);
+    fireEvent.click(deleteButtons[2]);
 
     await waitFor(() => {
       expect(screen.queryByText("Task 3")).not.toBeInTheDocument();
     });
   });
 
-  // test("update task", async () => {
-  //   render(<TodoList />);
+  test("update task", async () => {
+    listTask.mockResolvedValueOnce([
+      { id: 1, name: "Task 1" },
+      { id: 2, name: "Task 2" },
+      { id: 3, name: "Task 3" },
+      { id: 4, name: "Updated Task" },
+    ]);
 
-  //   const updateButton = screen.getByText("Update Task");
-  //   fireEvent.click(updateButton);
+    render(<TodoList />);
 
-  //   // 更新输入框内容并确定
-  //   const input = screen.getByTestId("inputName");
-  //   const okButton = screen.getByText("OK");
+    const updateButtons = await screen.findAllByRole("button", {
+      name: /Update Task/i,
+    });
+    // console.log(updateButtons.length);
+    fireEvent.click(updateButtons[1]);
 
-  //   fireEvent.change(input, { target: { value: "Updated Task" } });
-  //   fireEvent.click(okButton);
+    // 更新输入框内容并确定, find
+    const input = await screen.findByTestId("inputName");
+    const okButton = await screen.findByText("OK");
 
-  //   // 异步等待检查是否更新成功
-  //   await waitFor(() => {
-  //     expect(screen.getByText("Updated Task")).toBeInTheDocument();
-  //   });
-  // });
+    // eslint-disable-next-line testing-library/no-unnecessary-act
+    await act(async () => {
+      fireEvent.change(input, { target: { value: "Updated Task" } });
+      fireEvent.click(okButton);
+      // 异步等待检查是否更新成功
+      await waitFor(() => {
+        expect(screen.getByText("Updated Task")).toBeInTheDocument();
+      });
+    });
+  });
 });
