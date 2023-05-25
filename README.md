@@ -24,4 +24,5 @@
 
 # 参考地址
 1. Testing Library <https://testing-library.com/>
-2. Jest <https://jestjs.io/zh-Hans/>
+2. Jest中文官网 <https://jestjs.io/zh-Hans/>
+3. 使用Jest进行React单元测试 <https://juejin.cn/post/6844903654294716423#heading-31>
