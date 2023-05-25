@@ -14,6 +14,10 @@
   "scripts": {
     "start": "react-scripts start",
     "test": "jest",
+    "test learn": "jest src/learn/index.test.js",
+    "test counter": "jest src/learn/Counter.test.js",
+    "test request": "jest src/todo-list/request.test.js",
+    "test todo-list": "jest src/todo-list/index.test.js",
     "test:coverage": "jest --coverage"
   },
   "eslintConfig": {

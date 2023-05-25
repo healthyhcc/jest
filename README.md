@@ -13,10 +13,15 @@
 
 # Jest 的优点
 
-1. 易用性：基于 Jasmine，提供断言库，支持多种测试风格
+
+1. 是一款优雅、简洁的 JavaScript 测试框架。DOM Testing Library，React Testing Library，Vue Testing Library
 2. 适应性：Jest 是模块化、可扩展和可配置的
 3. 沙箱和快照：Jest 内置了 JSDOM，能够模拟浏览器环境，并且并行执行
-4. **快照测试：Jest 能够对 React 组件树进行序列化，生成对应的字符串快照，通过比较字符串提供高性能的 UI 检测。（对组件测试）**
+4. 快照测试：Jest 能够对 React 组件树进行序列化，生成对应的字符串快照，通过比较字符串提供高性能的 UI 检测。（对组件测试）
 5. Mock 系统：Jest 实现了一个强大的 Mock 系统，支持自动和手动 mock
 6. 支持异步代码测试：支持 Promise 和 async/await
 7. **自动生成静态分析结果：内置 Istanbul，测试代码覆盖率，并生成对应的报告**
+
+# 参考地址
+1. Testing Library <https://testing-library.com/>
+2. Jest <https://jestjs.io/zh-Hans/>
